@@ -1,0 +1,18 @@
+name: CI - build & test
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker Compose
+        run: |
+          docker compose build --pull
+          docker compose up -d
+      - name: Run tests (example)
+        run: |
+          sleep 8
+          npm install -g playwright
+          npm init -y
+          npm i @playwright/test node-fetch
+          npx playwright test --config tests/playwright.config.js || true

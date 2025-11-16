@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Meu PWA Integrado</title>
+  <link rel="manifest" href="/manifest.json">
+  <style>body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#ffb600;padding:2rem;}header{max-width:900px;margin:0 auto;text-align:center;} .btn{background:#ffb600;color:#111;padding:8px 14px;border-radius:8px;text-decoration:none;margin-top:12px;display:inline-block;}</style>
+</head>
+<body>
+  <header>
+    <h1>PWA Integrado — Demo</h1>
+    <p>Este PWA foi gerado automaticamente e integra sua extensão ao backend.</p>
+    <p><a class="btn" href="#" id="callApi">Chamar API</a></p>
+    <pre id="output"></pre>
+  </header>
+  <script>
+    async function callApi(){
+      try{
+        const r = await fetch('/api/hello');
+        const j = await r.json();
+        document.getElementById('output').textContent = JSON.stringify(j,null,2);
+      }catch(e){
+        document.getElementById('output').textContent = 'Erro: '+e;
+      }
+    }
+    document.getElementById('callApi').addEventListener('click', (e)=>{e.preventDefault(); callApi();});
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/service-worker.js').catch(console.error);
+    }
+  </script>
+</body>
+</html>
